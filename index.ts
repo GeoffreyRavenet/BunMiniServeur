@@ -1,3 +1,13 @@
+type Techno = {
+  id: number
+  name: string
+}
+
+const technos: Techno[] = [
+  { id: 1, name: "node" },
+  { id: 2, name: "bun" },
+]
+
 Bun.serve({
   hostname: "localhost",
   port: 3000,
@@ -6,6 +16,10 @@ Bun.serve({
 
     if (url.pathname === "/ping") {
       return new Response("pong")
+    }
+
+    if (url.pathname === "/technos") {
+      return new Response(JSON.stringify(technos, null, 2))
     }
 
     return new Response(`you requested url ${req.url} with pathname ${url.pathname}`)
