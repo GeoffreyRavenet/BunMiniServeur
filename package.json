@@ -2,6 +2,9 @@
   "name": "bunminiserveur",
   "module": "index.ts",
   "type": "module",
+  "scripts": {
+    "dev": "bun run --hot index.ts"
+  },
   "devDependencies": {
     "bun-types": "latest"
   },
