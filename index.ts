@@ -1,11 +1,13 @@
 type Techno = {
   id: number
   name: string
+  type: "Front" | "Back" | "Full-Stack"
 }
 
 const technos: Techno[] = [
-  { id: 1, name: "node" },
-  { id: 2, name: "bun" },
+  { id: 1, name: "Node", type: "Back" },
+  { id: 2, name: "Bun", type: "Back" },
+  { id: 3, name: "React", type: "Front" },
 ]
 
 Bun.serve({
@@ -18,10 +20,18 @@ Bun.serve({
       return new Response("pong")
     }
 
-    if (url.pathname === "/technos") {
-      return new Response(JSON.stringify(technos, null, 2))
+    if (url.pathname === "/technos" && req.method === "GET") {
+      const filterBy = url.searchParams.get("type") || "all"
+      return new Response(JSON.stringify(getTechnos(filterBy), null, 2))
     }
 
     return new Response(`you requested url ${req.url} with pathname ${url.pathname}`)
   },
 })
+
+function getTechnos(filter: string): Techno[] {
+  if (filter === "front" || filter === "back") {
+    return technos.filter((t) => t.type.toLocaleLowerCase() === filter.toLocaleLowerCase())
+  }
+  return technos
+}
